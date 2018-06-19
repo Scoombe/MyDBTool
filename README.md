@@ -1,5 +1,4 @@
-# UU-DBTool
-Double U DBtool
+# MyDBTool
 
 > MySQL Client with performance monitoring/ Node.js/ Electron/ node-Mysql/ React/ Redux/ ReactTables/ Reach-chartjs/ MySQL
 
