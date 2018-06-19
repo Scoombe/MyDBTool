@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- These meta tags come first. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap Theme Example</title>
+
+    <!-- Include the CSS -->
+    <link href="toolkit-inverse.min.css" rel="stylesheet">
+    <script>window.jQuery = window.$ = require('jquery')</script>
+    <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+    </script>
+
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+    <script src="toolkit.min.js"></script>
+
+</head>
+<body style="margin: 20px;">
+<button id="exit" type="button" class="btn btn-m btn-danger" style="float: right;">Exit</button>
+<div class="form-group row">
+    <div class="col-md-10">
+        <div id="slots" class="btn-group btn-group-toggle" data-toggle="buttons">
+            <div class="form-check-inline input-group mb-2 mr-sm-2">
+
+                <button id="slot1" class="btn btn-outline-secondary empty-slot" style="float: top;">1
+                </button>
+            </div>
+            <div class="form-check-inline input-group mb-2 mr-sm-2">
+                <button id="slot2" class="btn btn-outline-secondary empty-slot" style="float: top;">2</button>
+            </div>
+            <div class="form-check-inline input-group mb-2 mr-sm-2">
+                <button id="slot3" class="btn btn-outline-secondary empty-slot" style="float: top;">3</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hr-divider">
+    <h3 class="hr-divider-content hr-divider-heading">
+
+    </h3>
+</div>
+<!--<div style="-webkit-app-region: drag;display: block;">-->
+    <!--<ul id="main-menu" class="nav nav-bordered nav-stacked flex-md-column"-->
+        <!--style="-webkit-app-region: no-drag;display: none;">-->
+        <!--<li class="nav-item">-->
+            <!--<a id="cookbook" class="nav-link active" href="#">Cookbook</a>-->
+        <!--</li>-->
+        <!--<li class="nav-item">-->
+            <!--<a id="migration" class="nav-link" href="#">Query</a>-->
+        <!--</li>-->
+        <!--<li class="nav-item">-->
+            <!--<a id="db" class="nav-link" href="#">DB Tools</a>-->
+        <!--</li>-->
+    <!--</ul>-->
+<!--</div>-->
+<div class="tabs db" style="display: none;">
+    <ul class="nav nav-bordered nav-stacked flex-md-column">
+        <li class="nav-header">Tools:</li>
+        <li class="nav-item">
+            <a class="nav-link active" href="#" id="db-connect">Connect</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Backup</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" href="#">Restore</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Slow Queries</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Long Calls</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Database Size</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Migration</a>
+        </li>
+    </ul>
+
+</div>
+<div class="tabs cookbook" style="display: none;">
+    <button data-toggle="collapse" data-target="#addToBook" class="btn btn-primary" style="float: bottom;">+</button>
+    <div class="flextable" style="margin: 20px;">
+        <div class="flextable-item flextable-primary">
+            <input type="text" class="form-control cookbook" id="search" placeholder="Search cookbook">
+        </div>
+        <div class="flextable-item" style="margin: 20px 20px 20px 0;padding-right: 20px">
+            <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-primary" id="searchBook">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="results" class="panel-group">
+
+    </div>
+
+</div>
+<div id="addToBook" style="position: absolute;bottom: 0; min-width: 98%;z-index: 100;background-color: #252830;"
+     class="collapse">
+    <div class="hr-divider">
+        <h3 class="hr-divider-content hr-divider-heading">
+            Add to Cookbook
+        </h3>
+    </div>
+    <form class="form-horizontal" style="width: 90%">
+        <div class="form-group" style="margin: 10px 30px 10px 10px;">
+            <label for="title" style="margin-right: 10px" class="control-label col-sm-2">Title:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title">
+            </div>
+        </div>
+        <div class="form-group" style="margin: 10px 30px 10px 10px;">
+            <label for="tags" style="margin-right: 10px" class="control-label col-sm-2">Tags:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="tags"
+                       placeholder="tags, aliases, other terms for column to help search"
+                >
+            </div>
+        </div>
+
+    </form>
+    <div class="hr-divider" style="margin: 10px 0 10px 0;">
+        <h3 class="hr-divider-content hr-divider-heading">
+            Recipe
+        </h3>
+    </div>
+    <form class="form-horizontal" style="width: 90%">
+        <div class="form-group" style="margin: 10px 30px 10px 10px;">
+            <label for="ckTables" class="control-label col-sm-2">Tables:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ckTables">
+            </div>
+        </div>
+        <div class="form-group" style="margin: 10px 30px 10px 10px;">
+            <label for="ckFormula" class="control-label col-sm-2">Formula:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ckFormula">
+            </div>
+        </div>
+
+        <div class="form-group" style="margin: 10px 30px 10px 10px;">
+            <label for="ckNotes" class="control-label col-sm-2">Notes:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="ckNotes" style="height: 60px">
+            </div>
+        </div>
+        <button id="cookbook-add" type="submit" class="btn btn-primary" style="margin: 10px 30px 10px 10px;">Save
+        </button>
+    </form>
+
+
+</div>
+<div id="db-modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #252830;">
+            <div class="modal-header" style="background-color: #4d5364;">
+                <div style="min-width: 100%;">
+
+                    <h4 class="modal-title" style="color: white;float: left;">Connect to a DB</h4>
+                    <select id="saved-id" class="custom-select" style="float: right;">
+                        <option>New Connection</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="modal-body modal-body-scroller">
+                <form>
+                    <div class="form-group row">
+
+                        <label for="db-host" class="col-sm-2 col-form-label input-group-addon">Host</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control dark-modal-input" id="db-host" placeholder="Host">
+                        </div>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control dark-modal-input" id="db-port" placeholder="Port">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="db-user" class="col-sm-2 col-form-label input-group-addon">User</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control dark-modal-input" id="db-user" placeholder="User">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="db-pass" class="col-sm-2 col-form-label input-group-addon">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control dark-modal-input" id="db-pass"
+                                   placeholder="Password">
+                        </div>
+                    </div>
+
+                    <div id="db-remember-div" class="form-group row">
+                        <label for="db-remember" class="col-sm-2 col-form-label input-group-addon">Remember?</label>
+                        <div class="col-sm-1">
+                            <input class="form-control" type="checkbox" id="db-remember">
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+
+                        <label for="db-connect-slots"
+                               class="col-sm-2 col-form-label input-group-addon">Connection</label>
+                        <div class="col-sm-6">
+
+                            <div id="db-connect-slots" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-outline-secondary con-slot active">
+                                    <input type="radio" name="options" id="con-slot-1"
+                                           autocomplete="off" checked> 1
+                                </label>
+                                <label class="btn btn-outline-secondary con-slot">
+                                    <input type="radio" name="options" id="con-slot-2"
+                                           autocomplete="off"> 2
+                                </label>
+                                <label class="btn btn-outline-secondary con-slot">
+                                    <input type="radio" name="options" id="con-slot-3"
+                                           autocomplete="off"> 3
+                                </label>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="modal-body">
+            <div class="d-inline">
+                <button id="db-connect-submit" type="button" class="btn btn-primary">
+                    Connect
+                </button>
+                <button id="db-connect-cancel" type="button" class="btn btn-outline-secondary">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<div id="connections">
+
+</div>
+
+<!--<div id="tabs-query" class="tabs query" style="display: none;">-->
+    <!--<div class="panel panel-default">-->
+        <!--<button type="button" class="btn btn-s btn-danger clear-accord" style="float: right;margin: 30px;">clear-->
+        <!--</button>-->
+        <!--<div class="panel-heading statcard statcard-outline-primary p-4 mb-2">-->
+            <!--<a data-toggle="collapse" data-parent="#tabs-query" href="#query-body" style="color: white;">-->
+                <!--<h3 class="statcard-number panel-title">-->
+                    <!--Rostrvm4330_110-->
+                    <!--<small class="delta-indicator delta-positive"></small>-->
+                <!--</h3>-->
+                <!--<span class="statcard-desc">192.168.120.172</span>-->
+            <!--</a>-->
+
+        <!--</div>-->
+        <!--<div id="query-body">-->
+            <!--<div class="panel-collapse collapse in show">-->
+                <!--<textarea class="statcard-query" rows='8'></textarea>-->
+            <!--</div>-->
+            <!--<button class="btn btn-outline-success"> Run</button>-->
+            <!--<button class="btn btn-outline-danger"> Kill</button>-->
+            <!--<div id="query-explain" class="panel-collapse collapse in">-->
+
+            <!--</div>-->
+            <!--<div id="query-results" class="panel-collapse collapse in">-->
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+</body>
+
+</html>
