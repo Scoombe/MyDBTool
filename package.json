@@ -1,0 +1,35 @@
+{
+  "name": "dbtool",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/electron-starter.js",
+  "homepage": "./",
+  "dependencies": {
+    "chart.js": "^1.1.1",
+    "mysql": "^2.15.0",
+    "process-list": "^1.2.3",
+    "prop-types": "^15.6.1",
+    "react": "^16.4.0",
+    "react-chartjs": "^1.2.0",
+    "react-dom": "^16.4.0",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.4",
+    "react-table": "^6.8.6",
+    "redux": "^4.0.0",
+    "require-rebuild": "^1.2.8"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "rebuild": "electron-rebuild",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "electron": "electron .",
+    "electron-dev": "set ELECTRON_START_URL=http://localhost:3000 && electron ."
+  },
+  "devDependencies": {
+    "electron": "^2.0.2",
+    "electron-devtools-installer": "^2.2.4",
+    "electron-rebuild": "^1.7.3"
+  }
+}
