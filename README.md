@@ -10,7 +10,7 @@ A platform independant MySQL client with UI, slow query monitoring and processli
 * Monitor the MySQL process's resource usage
 * Watch slow query tables and extract and generalise the variables of the worst offenders
 
-To install and start UUdbtool enter the following:
+To install and start MyDBTool enter the following:
 ```
 npm install
 npm run rebuild
