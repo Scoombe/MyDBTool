@@ -13,8 +13,7 @@ A platform independant MySQL client with UI, slow query monitoring and processli
 To install and start MyDBTool enter the following:
 ```
 npm install
-npm run rebuild
-npm run build
+npm run make
 npm run electron
 ```
 If you wish to run the development version enter:
