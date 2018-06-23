@@ -49,7 +49,16 @@ const Header = props => (
 
 Header.propTypes = {
     instances: PropTypes.array,
-    onSchemaChange: PropTypes.func.isRequired
+    connectedModal: PropTypes.bool.isRequired,
+    onActiveInstanceChange: PropTypes.func.isRequired,
+    onConnect: PropTypes.func.isRequired,
+    onSchemaChange: PropTypes.func.isRequired,
+    onCloseInstance: PropTypes.func.isRequired,
+    addNewConnection: PropTypes.func.isRequired,
+    sendError: PropTypes.func.isRequired,
+    clearError: PropTypes.func.isRequired,
+    errors: PropTypes.array,
+    onClose: PropTypes.func.isRequired
 
 };
 

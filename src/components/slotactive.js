@@ -18,8 +18,11 @@ const SlotActive = props => {
 };
 
 SlotActive.propTypes = {
+    onActiveInstanceChange: PropTypes.func.isRequired,
     slot: PropTypes.number.isRequired,
-    showDetail: PropTypes.bool.isRequired
+    showDetail: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
+    instanceName: PropTypes.string.isRequired
 };
 
 export default SlotActive

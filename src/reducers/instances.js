@@ -17,7 +17,7 @@ const initialState = {
             username: '',
             password: '',
             host: '',
-            port: 0,
+            port: '',
             connections: []
 
         },
@@ -32,7 +32,7 @@ const initialState = {
             username: '',
             password: '',
             host: '',
-            port: 0,
+            port: '',
             connections: []
 
         },
@@ -47,7 +47,7 @@ const initialState = {
             username: '',
             password: '',
             host: '',
-            port: 0,
+            port: '',
             connections: []
 
         }

@@ -27,7 +27,9 @@ export default class Schemas extends React.Component {
 
 
 Schemas.propTypes = {
-    schemaSelect: PropTypes.string,
     onSchemaChange: PropTypes.func.isRequired,
-    schemas: PropTypes.array.isRequired
+    schemas: PropTypes.array.isRequired,
+    index: PropTypes.number,
+    clearError: PropTypes.func.isRequired,
+    slot: PropTypes.number.isRequired
 };

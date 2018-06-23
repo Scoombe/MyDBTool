@@ -12,16 +12,7 @@ const Connections = props => (
             transitionLeaveTimeout={500}
         >
             {props.instances.map((eachInstance, index) => {
-                let results;
-                let connection;
-                if (props.dbConnects && props.dbConnects.length >0) {
-                    for (let i = 0; i<props.dbConnects.length; i++) {
-                        if (eachInstance.instanceName === props.dbConnects[i].instanceName) {
-                            results = props.dbConnects[i].result;
-                            connection = props.dbConnects[i].db
-                        }
-                    }
-                }
+
                 if (eachInstance.isConnected) {
                     return <Instance
                         host={eachInstance.host}
@@ -34,8 +25,6 @@ const Connections = props => (
                         onCloseConnection={props.onCloseConnection}
                         onAskDB={props.onAskDB}
                         onMonitorUpdate={props.onMonitorUpdate}
-                        results={results}
-                        db={connection}
                     />
                 } else {
                     return null;
@@ -48,11 +37,12 @@ const Connections = props => (
 
 
 Connections.propTypes = {
-    db: PropTypes.string,
-    host: PropTypes.string,
-    user: PropTypes.string,
-    port: PropTypes.number,
-    instance: PropTypes.string
+    instances: PropTypes.array,
+    onCloseInstance: PropTypes.func.isRequired,
+    onCloseConnection: PropTypes.func.isRequired,
+    dbConnects: PropTypes.array,
+    onAskDB: PropTypes.func.isRequired,
+    onMonitorUpdate: PropTypes.func.isRequired
 };
 
 export default Connections

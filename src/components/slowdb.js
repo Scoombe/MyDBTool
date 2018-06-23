@@ -30,5 +30,12 @@ const SlowDB = (props) => {
     )
 
 };
-
+SlowDB.propTypes = {
+    connectionID: PropTypes.number,
+    host: PropTypes.string,
+    db: PropTypes.string,
+    instanceName: PropTypes.string,
+    onCloseConnection: PropTypes.func.isRequired,
+    index: PropTypes.number,
+};
 export default SlowDB

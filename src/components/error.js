@@ -33,5 +33,17 @@ const Error = (props) => {
     )
 
 };
+/*
+message={error.message}
+                            type={error.errorType}
+                            onClose={clearError}
+                            index={index}
+ */
+Error.propTypes = {
+    message: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    onClose: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired
+};
 
 export default Error;

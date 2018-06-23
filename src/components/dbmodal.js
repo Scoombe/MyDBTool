@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default class DbModal extends React.Component {
     constructor(props) {
@@ -151,3 +152,11 @@ export default class DbModal extends React.Component {
         )
     }
 }
+
+DbModal.propTypes = {
+    onConnect: PropTypes.func.isRequired,
+    errors: PropTypes.array,
+    sendError: PropTypes.func.isRequired,
+    clearError: PropTypes.func.isRequired,
+    onActiveInstanceChange: PropTypes.func.isRequired
+};

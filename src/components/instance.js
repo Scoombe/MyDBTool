@@ -52,10 +52,8 @@ export default class Instance extends React.Component {
                                                 host={this.props.host}
                                                 db={eachConnection.target}
                                                 instanceName={this.props.instanceName}
-                                                connection={this.props.connection}
                                                 onCloseConnection={this.props.onCloseConnection}
                                                 index={index}
-                                                connectionObj={this.props.db}
                                                 onAskDB={this.props.onAskDB}
                                                 key={eachConnection.id}
                                             />
@@ -67,11 +65,8 @@ export default class Instance extends React.Component {
                                                 host={this.props.host}
                                                 db={eachConnection.target}
                                                 instanceName={this.props.instanceName}
-                                                connection={this.props.connection}
                                                 onCloseConnection={this.props.onCloseConnection}
                                                 index={index}
-                                                results={this.props.results}
-                                                connectionObj={this.props.db}
                                                 onMonitorUpdate={this.props.onMonitorUpdate}
                                                 data={eachConnection.data}
                                                 key={eachConnection.id}
@@ -83,7 +78,6 @@ export default class Instance extends React.Component {
                                                 connectionID={eachConnection.id}
                                                 host={this.props.host}
                                                 db={eachConnection.target}
-                                                connection={this.props.connection}
                                                 instanceName={this.props.instanceName}
                                                 onCloseConnection={this.props.onCloseConnection}
                                                 index={index}
@@ -103,3 +97,15 @@ export default class Instance extends React.Component {
         )
     }
 }
+
+Instance.propTypes = {
+    host: PropTypes.string,
+    user: PropTypes.string,
+    port: PropTypes.string,
+    instanceName: PropTypes.string,
+    connections: PropTypes.array,
+    onCloseConnection: PropTypes.func.isRequired,
+    onCloseInstance: PropTypes.func.isRequired,
+    onAskDB: PropTypes.func.isRequired,
+    onMonitorUpdate: PropTypes.func.isRequired
+};
