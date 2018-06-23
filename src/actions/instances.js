@@ -30,12 +30,14 @@ export const connectInstance = (instanceName, host, port, username, password) =>
     }
 };
 
-export const updateConnection = (instanceName, connectionID, data) => {
+export const updateConnection = (instanceName, connectionID, dataType, data, int) => {
     return {
         type: InstanceActionTypes.UPDATE_CONNECTION,
         instanceName,
         connectionID,
-        data
+        dataType,
+        data,
+        int
     }
 };
 
@@ -46,11 +48,12 @@ export const disconnectInstance = instanceName => {
     }
 };
 
-export const addConnection = (instanceName, connectionType, interval) => {
+export const addConnection = (instanceName, connectionType,connectionID, interval) => {
     return {
         type: InstanceActionTypes.ADD_CONNECTION,
         instanceName,
         connectionType,
+        connectionID,
         interval
     }
 };

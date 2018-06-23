@@ -139,13 +139,26 @@ export default function Instance(state = initialState, action) {
 
                         for (i; i < instance.connections.length; i++) {
                             if (instance.connections[i].id === action.connectionID) {
-                                let {id, type, target, interval} = instance.connections[i];
+                                let {id, type, target, interval, data} = instance.connections[i];
+                                if (data && data.length >= 0) {
+                                    if (action.dataType === 'ProcessList') {
+                                        data[1] = {dataType: action.dataType, results: action.data, id: action.int};
+                                    } else if (action.dataType === 'CPU') {
+                                        data[0] = {dataType: action.dataType, results: action.data, id: action.int};
+                                    } else {
+                                        data.push({dataType: action.dataType, results: action.data, id: action.int})
+                                    }
+                                } else {
+
+                                    data = [{dataType: action.dataType, results: action.data, id: action.int}];
+
+                                }
                                 connections.push({
                                     id,
                                     type,
                                     target,
                                     interval,
-                                    data: action.data
+                                    data: data
                                 });
                             } else {
                                 connections.push(instance.connections[i]);

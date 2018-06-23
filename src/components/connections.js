@@ -33,6 +33,7 @@ const Connections = props => (
                         onCloseInstance={props.onCloseInstance}
                         onCloseConnection={props.onCloseConnection}
                         onAskDB={props.onAskDB}
+                        onMonitorUpdate={props.onMonitorUpdate}
                         results={results}
                         db={connection}
                     />

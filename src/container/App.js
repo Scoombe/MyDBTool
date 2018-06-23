@@ -23,6 +23,8 @@ class Application extends React.Component {
         this.interceptAddConnection = this.interceptAddConnection.bind(this);
         this.getConnection = this.getConnection.bind(this);
         this.onAskDB = this.onAskDB.bind(this);
+        this.getInstance = this.getInstance.bind(this);
+        this.onMonitorUpdate = this.onMonitorUpdate.bind(this);
         this.state = {
             /*
             dbConnects: [
@@ -105,18 +107,21 @@ class Application extends React.Component {
     onAskDB(e) {
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
         const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
+        const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
         /*
         e.instanceName,
         e.schema,
+        e.connectionID,
         e.query
          */
         return new Promise((resolve, reject) => {
             const {connection} = this.getConnection(e);
             connection.useSchema(e.schema).then((res) => connection.explain(e.query)).then((res) => {
-                console.log(res);
+                updateConnection(e.instanceName, e.connectionID, 'Explain', res[0]);
                 resolve(res);
 
             }).then(() => connection.query(e.query)).then((res) => {
+                updateConnection(e.instanceName, e.connectionID, 'Query', res);
                 resolve()
             }).catch((err) => {
                 addError('Error', err.code, err.message);
@@ -124,6 +129,49 @@ class Application extends React.Component {
             });
         });
 
+    }
+
+    onMonitorUpdate(e) {
+        const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
+        const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
+        const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
+        /*
+        e.instanceName,
+        e.schema,
+        e.connectionID,
+        e.processType,
+        e.int
+         */
+        if (e.processType === 'ProcessList') {
+            return new Promise((resolve, reject) => {
+                const {connection} = this.getConnection(e);
+                connection.useSchema(e.schema).then((res) => connection.processList(e.schema)).then((res) => {
+                    updateConnection(e.instanceName, e.connectionID, e.processType, res, e.int);
+                    resolve(res);
+                }).catch((err) => {
+                    addError('Error', err.code, `${err.message}`);
+                })
+            });
+        } else if (e.processType === 'CPU') {
+            return new Promise((resolve, reject) => {
+                updateConnection(e.instanceName, e.connectionID, e.processType, e.data, e.int);
+                resolve();
+
+            }).catch((err) => {
+                addError('Error', err.code, `${err.message}`);
+            })
+        }
+    }
+
+    getInstance(e) {
+        // Get the instance from instanceName
+        let instance;
+        for (let i = 0; i < this.props.instances.length; i++) {
+            if (e.instanceName === this.props.instances[i].instanceName) {
+                instance = this.props.instances[i];
+            }
+        }
+        return instance;
     }
 
     getConnection(e) {
@@ -251,6 +299,7 @@ class Application extends React.Component {
                         onCloseConnection={removeConnection}
                         dbConnects={this.state.dbConnects}
                         onAskDB={this.onAskDB}
+                        onMonitorUpdate={this.onMonitorUpdate}
                     />
                 </div>
 

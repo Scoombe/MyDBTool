@@ -20,10 +20,6 @@ export default class Instance extends React.Component {
         })
     }
 
-    onConnectionUpdate(e) {
-
-    }
-
 
     render() {
         return (
@@ -76,6 +72,8 @@ export default class Instance extends React.Component {
                                                 index={index}
                                                 results={this.props.results}
                                                 connectionObj={this.props.db}
+                                                onMonitorUpdate={this.props.onMonitorUpdate}
+                                                data={eachConnection.data}
                                                 key={eachConnection.id}
                                             />
                                         );
