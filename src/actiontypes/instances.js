@@ -6,3 +6,4 @@ export const ACTIVE_INSTANCE_CHANGE = 'instances/ACTIVE_INSTANCE_CHANGE';
 export const SCHEMA_CHANGE = 'instances/SCHEMA_CHANGE';
 export const GET_SCHEMA = 'instances/GET_SCHEMA';
 export const SLOT_OPTIONS = 'instances/SLOT_OPTIONS';
+export const UPDATE_CONNECTION = 'instances/UPDATE_CONNECTION';

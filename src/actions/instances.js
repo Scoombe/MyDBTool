@@ -19,15 +19,23 @@ export const clearError = (index, errorSubType) => {
     }
 };
 
-export const connectInstance = (instanceName, host, port, username, password, connection) => {
+export const connectInstance = (instanceName, host, port, username, password) => {
     return {
         type: InstanceActionTypes.CONNECT_INSTANCE,
         instanceName,
         host,
         port,
         username,
-        password,
-        connection: connection
+        password
+    }
+};
+
+export const updateConnection = (instanceName, connectionID, data) => {
+    return {
+        type: InstanceActionTypes.UPDATE_CONNECTION,
+        instanceName,
+        connectionID,
+        data
     }
 };
 
@@ -74,10 +82,10 @@ export const schemaChange = (index, activeSchema) => {
 };
 
 export const getSchema = (schemas) => {
-  return {
-      type: InstanceActionTypes.GET_SCHEMA,
-      schemas
-  }
+    return {
+        type: InstanceActionTypes.GET_SCHEMA,
+        schemas
+    }
 };
 export const slotOptions = (options) => {
     return {

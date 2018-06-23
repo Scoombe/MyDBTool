@@ -75,8 +75,7 @@ export default function Instance(state = initialState, action) {
                             host: action.host,
                             port: action.port,
                             username: action.username,
-                            password: action.password,
-                            connection: action.connection
+                            password: action.password
                         }
                     } else {
                         return instance;
@@ -121,6 +120,38 @@ export default function Instance(state = initialState, action) {
                             target: instance.activeSchema,
                             interval: action.interval
                         });
+                        return {
+                            ...instance,
+                            connections: connections
+                        }
+                    } else {
+                        return {...instance}
+                    }
+                })
+            };
+        case InstanceActionTypes.UPDATE_CONNECTION:
+            return {
+                ...state,
+                instances: state.instances.map((instance) => {
+                    if (instance.instanceName === action.instanceName) {
+                        let connections = [];
+                        let i = 0;
+
+                        for (i; i < instance.connections.length; i++) {
+                            if (instance.connections[i].id === action.connectionID) {
+                                let {id, type, target, interval} = instance.connections[i];
+                                connections.push({
+                                    id,
+                                    type,
+                                    target,
+                                    interval,
+                                    data: action.data
+                                });
+                            } else {
+                                connections.push(instance.connections[i]);
+                            }
+                        }
+
                         return {
                             ...instance,
                             connections: connections

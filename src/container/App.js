@@ -22,27 +22,47 @@ class Application extends React.Component {
         this.onClose = this.onClose.bind(this);
         this.interceptAddConnection = this.interceptAddConnection.bind(this);
         this.getConnection = this.getConnection.bind(this);
+        this.onAskDB = this.onAskDB.bind(this);
         this.state = {
-            connection: {},
+            /*
+            dbConnects: [
+            {
+            instanceName,
+            db: connection
+            }
+            ]
+             */
         }
     };
 
     onConnect(e) {
+        // bind dispatch to the action creators
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
+        const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
         const connectInstance = bindActionCreators(InstanceActionCreators.connectInstance, this.props.dispatch);
         const getSchema = bindActionCreators(InstanceActionCreators.getSchema, this.props.dispatch);
         const slotOptions = bindActionCreators(InstanceActionCreators.slotOptions, this.props.dispatch);
+        // Create a new database connection object
         const connection = new Connection(e.host, e.port, e.username, e.password);
         connection.connect().then((conn) => {
+            // Connect to the database then add the connection string data to the store
             return new Promise((resolve, reject) => {
-                connectInstance(e.instanceName, e.host, e.port, e.username, e.password, conn);
+                // Clear the connection Errors
+                clearError('', 'ER_ACCESS_DENIED_ERROR');
+                clearError('', 'ECONNREFUSED');
+                clearError('', 'ENOENT');
+
+                // CONNECT_INSTANCE action
+                connectInstance(e.instanceName, e.host, e.port, e.username, e.password);
                 resolve(conn);
             })
 
         }).then((rows) => {
+                // Now Get the available Schemas
                 return connection.getSchema()
             }
         ).then(schemas => {
+            // Set the available schemas in the Store
             return new Promise((resolve, reject) => {
                 getSchema(schemas);
                 resolve(schemas)
@@ -50,9 +70,11 @@ class Application extends React.Component {
 
         }).then(options => {
             return new Promise((resolve, reject) => {
+                // If the host is local, allow the use of the MySQL monitor
                 if (e.host.indexOf('localhost') >= 0 || e.host.indexOf('127.0.0.1') >= 0) {
                     slotOptions(['query', 'monitor', 'slowWatcher'])
                 } else {
+                    // Otherwise only give option for Query and SlowWatcher
                     slotOptions(['query', 'slowWatcher']);
                 }
                 resolve(options);
@@ -60,13 +82,17 @@ class Application extends React.Component {
 
         }).catch((err) => {
             if (err.code === "ENOENT") {
+                // No Such File or directory
                 return addError('Error', err.code, `Failed to Connect: Can't find host ${e.host}:${e.port}`);
             } else if (err.code === 'ECONNREFUSED') {
+                // Incorrect port
                 return addError('Error', err.code, `Failed to Connect: Connection Refused ${e.host}:${e.port}`);
             } else if (err.code === 'ER_ACCESS_DENIED_ERROR') {
+                // Incorrect password/username combination
                 return addError('Error', err.code, `${err.message}`);
             }
         });
+        // add the connection object to the app state
         this.setState({
             dbConnects: [{
                 instanceName: e.instanceName,
@@ -76,7 +102,32 @@ class Application extends React.Component {
 
     }
 
+    onAskDB(e) {
+        const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
+        const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
+        /*
+        e.instanceName,
+        e.schema,
+        e.query
+         */
+        return new Promise((resolve, reject) => {
+            const {connection} = this.getConnection(e);
+            connection.useSchema(e.schema).then((res) => connection.explain(e.query)).then((res) => {
+                console.log(res);
+                resolve(res);
+
+            }).then(() => connection.query(e.query)).then((res) => {
+                resolve()
+            }).catch((err) => {
+                addError('Error', err.code, err.message);
+                reject(err);
+            });
+        });
+
+    }
+
     getConnection(e) {
+        // get the connection object and the activeSchema from the instanceName
         let activeSchema;
         let connection;
         for (let i = 0; i < this.state.dbConnects.length; i++) {
@@ -89,10 +140,11 @@ class Application extends React.Component {
         return {activeSchema: activeSchema, connection: connection};
     }
 
+
     interceptAddConnection(e) {
-
+        console.log(e);
         const {activeSchema, connection} = this.getConnection(e);
-
+        const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
         const addConnection = bindActionCreators(InstanceActionCreators.addConnection, this.props.dispatch);
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
         switch (e.connectionType) {
@@ -198,6 +250,7 @@ class Application extends React.Component {
                         onCloseInstance={disconnectInstance}
                         onCloseConnection={removeConnection}
                         dbConnects={this.state.dbConnects}
+                        onAskDB={this.onAskDB}
                     />
                 </div>
 

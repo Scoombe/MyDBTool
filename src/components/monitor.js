@@ -108,7 +108,7 @@ export default class MonitorSchema extends React.Component {
     }
 
     updateCPU(snapshot, arg) {
-        let processes = [];
+        let processes = arg;
         /*
         'instance/CONNECT_INSTANCE',
         instanceName: 'Test',
@@ -117,11 +117,6 @@ export default class MonitorSchema extends React.Component {
         username:'root',
         password:'dev'
          */
-        for (let i = 0; i < arg.length; i++) {
-            if (arg[i].name.indexOf('mysql') >= 0) {
-                processes.push(arg[i]);
-            }
-        }
         if (this.state.running) {
             const now = Date.now();
             let datasets = [];
