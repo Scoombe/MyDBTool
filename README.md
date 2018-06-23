@@ -9,3 +9,14 @@ A platform independant MySQL client with UI, slow query monitoring and processli
 * Monitor running queries
 * Monitor the MySQL process's resource usage
 * Watch slow query tables and extract and generalise the variables of the worst offenders
+
+To install and start MyDBTool enter the following:
+```
+npm install
+npm run make
+npm run electron
+```
+If you wish to run the development version enter:
+```
+npm run electron-dev
+```
