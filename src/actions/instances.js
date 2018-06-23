@@ -19,15 +19,25 @@ export const clearError = (index, errorSubType) => {
     }
 };
 
-export const connectInstance = (instanceName, host, port, username, password, connection) => {
+export const connectInstance = (instanceName, host, port, username, password) => {
     return {
         type: InstanceActionTypes.CONNECT_INSTANCE,
         instanceName,
         host,
         port,
         username,
-        password,
-        connection: connection
+        password
+    }
+};
+
+export const updateConnection = (instanceName, connectionID, dataType, data, int) => {
+    return {
+        type: InstanceActionTypes.UPDATE_CONNECTION,
+        instanceName,
+        connectionID,
+        dataType,
+        data,
+        int
     }
 };
 
@@ -38,11 +48,12 @@ export const disconnectInstance = instanceName => {
     }
 };
 
-export const addConnection = (instanceName, connectionType, interval) => {
+export const addConnection = (instanceName, connectionType,connectionID, interval) => {
     return {
         type: InstanceActionTypes.ADD_CONNECTION,
         instanceName,
         connectionType,
+        connectionID,
         interval
     }
 };
@@ -74,10 +85,10 @@ export const schemaChange = (index, activeSchema) => {
 };
 
 export const getSchema = (schemas) => {
-  return {
-      type: InstanceActionTypes.GET_SCHEMA,
-      schemas
-  }
+    return {
+        type: InstanceActionTypes.GET_SCHEMA,
+        schemas
+    }
 };
 export const slotOptions = (options) => {
     return {

@@ -13,10 +13,12 @@ const Connections = props => (
         >
             {props.instances.map((eachInstance, index) => {
                 let results;
+                let connection;
                 if (props.dbConnects && props.dbConnects.length >0) {
                     for (let i = 0; i<props.dbConnects.length; i++) {
                         if (eachInstance.instanceName === props.dbConnects[i].instanceName) {
                             results = props.dbConnects[i].result;
+                            connection = props.dbConnects[i].db
                         }
                     }
                 }
@@ -30,7 +32,10 @@ const Connections = props => (
                         key={index}
                         onCloseInstance={props.onCloseInstance}
                         onCloseConnection={props.onCloseConnection}
+                        onAskDB={props.onAskDB}
+                        onMonitorUpdate={props.onMonitorUpdate}
                         results={results}
+                        db={connection}
                     />
                 } else {
                     return null;

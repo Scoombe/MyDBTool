@@ -7,7 +7,8 @@ const SlowDB = (props) => {
         <div style={{margin: 5}}
              className="tabs query">
             <div className="panel panel-default query-tab">
-                <Close onClose={props.onCloseConnection} action={true} instanceName={props.instanceName}
+                <Close onClose={(e) => props.onCloseConnection(e.instanceName, e.index)} action={true}
+                       instanceName={props.instanceName}
                        index={props.index}/>
                 <div className="panel-heading statcard statcard-outline-info p-4 mb-2">
                     <a style={{color: 'white'}}>

@@ -12,6 +12,7 @@
     "react": "^16.4.0",
     "react-addons-css-transition-group": "^15.6.2",
     "react-chartjs": "^1.2.0",
+    "react-chartjs2": "^1.2.1",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
     "react-scripts": "1.1.4",

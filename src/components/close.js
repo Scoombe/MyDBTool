@@ -9,8 +9,8 @@ export default class Close extends React.Component {
     onClose() {
 
         if (this.props.action === true) {
-            this.props.onClose(this.props.instanceName,
-                this.props.index
+            this.props.onClose({instanceName: this.props.instanceName,
+                index: this.props.index}
             );
         } else if (this.props.action==='error') {
             this.props.onClose(this.props.index, '');

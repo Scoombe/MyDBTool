@@ -55,6 +55,8 @@ export default class Instance extends React.Component {
                                                 connection={this.props.connection}
                                                 onCloseConnection={this.props.onCloseConnection}
                                                 index={index}
+                                                connectionObj={this.props.db}
+                                                onAskDB={this.props.onAskDB}
                                                 key={eachConnection.id}
                                             />
                                         );
@@ -69,6 +71,9 @@ export default class Instance extends React.Component {
                                                 onCloseConnection={this.props.onCloseConnection}
                                                 index={index}
                                                 results={this.props.results}
+                                                connectionObj={this.props.db}
+                                                onMonitorUpdate={this.props.onMonitorUpdate}
+                                                data={eachConnection.data}
                                                 key={eachConnection.id}
                                             />
                                         );

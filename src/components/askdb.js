@@ -9,10 +9,14 @@ export default class AskDB extends React.Component {
         this.onAsk = this.onAsk.bind(this);
         this.onKill = this.onKill.bind(this);
         this.onTimer = this.onTimer.bind(this);
+        this.onEnterQuery = this.onEnterQuery.bind(this);
+        this.running = this.running.bind(this);
+        this.onClose = this.onClose.bind(this);
         this.state = {
             running: false,
             timer: 0,
-            lastTime: 0
+            lastTime: 0,
+            query: ''
         }
     }
 
@@ -24,6 +28,11 @@ export default class AskDB extends React.Component {
         clearInterval(this.interval)
     }
 
+    onClose(e) {
+
+        this.props.onCloseConnection(e.instanceName, e.index);
+    }
+
     onTimer() {
         if (this.state.running) {
             const now = Date.now();
@@ -31,8 +40,30 @@ export default class AskDB extends React.Component {
         }
     }
 
+    onEnterQuery(e) {
+        this.setState({
+            query: e.target.textContent
+        })
+    }
+
+    running(isit) {
+        return new Promise(resolve => {
+            this.setState({running: isit, lastTime: Date.now()});
+            resolve();
+        })
+    }
+
     onAsk() {
-        this.setState({running: true, lastTime: Date.now()});
+        this.running(true).then(() => this.props.onAskDB({
+            instanceName: this.props.instanceName,
+            connectionID: this.props.connectionID,
+            schema: this.props.db,
+            query: this.state.query
+        })).then(() => this.running(false)).then(() => {
+                clearInterval(this.interval);
+            }
+        ).catch(() => this.running(false));
+
     }
 
     onKill() {
@@ -45,7 +76,8 @@ export default class AskDB extends React.Component {
             <div id="instance-1" style={{margin: 5}}
                  className="tabs query panel-collapse">
                 <div className="panel panel-default query-tab">
-                    <Close onClose={this.props.onCloseConnection} action={true} instanceName={this.props.instanceName} index={this.props.index}/>
+                    <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
+                           index={this.props.index}/>
                     <div className="panel-heading statcard statcard-outline-primary p-4 mb-2">
                         <Qtimer timer={this.state.timer}/>
                         <a style={{color: 'white'}}>
@@ -62,8 +94,8 @@ export default class AskDB extends React.Component {
                     <div
                         className="panel-collapse">
                         <div>
-                            <div className="query-input"
-                                 style={{minHeight: 50}} contentEditable="true"/>
+                            <div
+                                style={{minHeight: 50}} contentEditable="true" onInput={this.onEnterQuery}/>
                         </div>
                         <div className="btn-group">
                             {
@@ -79,10 +111,6 @@ export default class AskDB extends React.Component {
                             }
 
 
-                        </div>
-                        <div id="query-explain-1-rostrvm4322_106" style={{overflowX: 'auto'}}>
-                        </div>
-                        <div id="query-results-1-rostrvm4322_106" style={{overflowX: 'auto'}}>
                         </div>
                     </div>
                 </div>

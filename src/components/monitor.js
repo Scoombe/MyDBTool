@@ -16,6 +16,7 @@ export default class MonitorSchema extends React.Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
         this.updateCPU = this.updateCPU.bind(this);
+        this.onClose = this.onClose.bind(this);
         this.state = {
             snapshot: '',
             width: window.innerWidth - 120,
@@ -105,10 +106,20 @@ export default class MonitorSchema extends React.Component {
             }
 
         });
+        let int = setInterval(() => {
+            this.props.onMonitorUpdate({
+                instanceName: this.props.instanceName,
+                schema: this.props.db,
+                connectionID: this.props.connectionID,
+                processType: 'ProcessList',
+                int: int
+            })
+        }, 5000)
+
     }
 
     updateCPU(snapshot, arg) {
-        let processes = [];
+        let processes = arg;
         /*
         'instance/CONNECT_INSTANCE',
         instanceName: 'Test',
@@ -117,77 +128,107 @@ export default class MonitorSchema extends React.Component {
         username:'root',
         password:'dev'
          */
-        for (let i = 0; i < arg.length; i++) {
-            if (arg[i].name.indexOf('mysql') >= 0) {
-                processes.push(arg[i]);
-            }
-        }
         if (this.state.running) {
             const now = Date.now();
             let datasets = [];
-            let labels = this.state.data.labels;
-            if (this.state.data.datasets.length === 0) {
-                for (let i = 0; i < processes.length; i++) {
-                    datasets.push({
-                        label: processes[i].pid || 'CPU',
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [processes[i].cpu]
+            if (typeof this.props.data === 'undefined') {
+                this.props.onMonitorUpdate({
+                    instanceName: this.props.instanceName,
+                    schema: this.props.db,
+                    connectionID: this.props.connectionID,
+                    processType: 'CPU',
+                    data: {
+                        labels: [],
+                        datasets: []
+                    },
+                    int: snapshot
+                }).then(() => {
+                    this.setState({
+                        snapshot: snapshot,
+                        lastTime: now,
+                        timer: 0,
 
-                    })
-                }
-            } else if (this.state.data.labels.length === 30) {
-                datasets = this.state.data.datasets;
-                labels.shift();
-                for (let i = 0; i < datasets.length; i++) {
-                    datasets[i].data.shift();
-                    for (let c = 0; c < processes.length; c++) {
-                        if (datasets[i].label === processes[c].pid) {
-                            let data = datasets[i].data;
-                            data.push(processes[i].cpu);
-                            datasets[i].data = data;
-                        }
-                    }
-                }
-
+                    });
+                })
             } else {
-                datasets = this.state.data.datasets;
-                for (let i = 0; i < datasets.length; i++) {
-                    for (let c = 0; c < processes.length; c++) {
-                        if (datasets[i].label === processes[c].pid) {
-                            let data = datasets[i].data;
-                            data.push(processes[i].cpu);
-                            datasets[i].data = data;
+                let data = this.props.data[0].results;
+                let labels = data.labels;
+                if (data.datasets.length === 0) {
+                    for (let i = 0; i < processes.length; i++) {
+                        datasets.push({
+                            label: processes[i].pid || 'CPU',
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [processes[i].cpu]
+
+                        })
+                    }
+                } else if (data.labels.length === 30) {
+                    datasets = data.datasets;
+                    labels.shift();
+                    for (let i = 0; i < datasets.length; i++) {
+                        datasets[i].data.shift();
+                        for (let c = 0; c < processes.length; c++) {
+                            if (datasets[i].label === processes[c].pid) {
+                                let data = datasets[i].data;
+                                data.push(processes[i].cpu);
+                                datasets[i].data = data;
+                            }
                         }
                     }
+
+                } else {
+                    datasets = data.datasets;
+                    for (let i = 0; i < datasets.length; i++) {
+                        for (let c = 0; c < processes.length; c++) {
+                            if (datasets[i].label === processes[c].pid) {
+                                let data = datasets[i].data;
+                                data.push(processes[i].cpu);
+                                datasets[i].data = data;
+                            }
+                        }
+                    }
+
                 }
+                let timer = this.state.timer + 1;
+                labels.push(timer);
+                this.props.onMonitorUpdate({
+                    instanceName: this.props.instanceName,
+                    schema: this.props.db,
+                    connectionID: this.props.connectionID,
+                    processType: 'CPU',
+                    data: {
+                        labels: labels,
+                        datasets: datasets
+                    },
+                    int: snapshot
+                }).then(() => {
+                    this.setState({
+                        snapshot: snapshot,
+                        lastTime: now,
+                        timer: timer,
+
+                    });
+                });
 
             }
-            let timer = this.state.timer + 1;
-            labels.push(timer);
-            this.setState({
-                snapshot: snapshot,
-                lastTime: now,
-                timer: timer,
-                data: {
-                    labels: labels,
-                    datasets: datasets
-                }
-
-            });
         }
 
+    }
 
+    onClose(e) {
+        clearInterval(this.props.data[0].id);
+        clearInterval(this.props.data[1].id);
+        this.props.onCloseConnection(e.instanceName, e.index);
     }
 
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.updateDimensions);
-        clearInterval(this.state.snapshot);
     }
 
     render() {
@@ -195,7 +236,7 @@ export default class MonitorSchema extends React.Component {
             <div style={{margin: 5}}
                  className="tabs query">
                 <div className="panel panel-default query-tab">
-                    <Close onClose={this.props.onCloseConnection} action={true} instanceName={this.props.instanceName}
+                    <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
                            index={this.props.index}/>
                     <div className="panel-heading statcard statcard-outline-warning p-4 mb-2">
                         <a style={{color: 'white'}}>
@@ -216,13 +257,18 @@ export default class MonitorSchema extends React.Component {
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={500}
                 >
-                    <Line
-                        data={this.state.data}
-                        options={this.state.options}
-                        width={this.state.width}
-                        style={{width: this.state.width + 'px'}}
-                        redraw
-                    />
+                    {
+                        (this.props.data)
+                            ? (<Line
+                                data={this.props.data[0].results}
+                                options={this.state.options}
+                                width={this.state.width}
+                                style={{width: this.state.width + 'px'}}
+                                redraw
+                            />)
+                            : null
+                    }
+
                 </ReactCSSTransitionGroup>
                 <ReactCSSTransitionGroup
                     component="div"
