@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 export default class SlotOptions extends React.Component {
     constructor(props) {
@@ -15,7 +16,7 @@ export default class SlotOptions extends React.Component {
 
     showOpts() {
         if (this.props.activeSchema === '') {
-            this.props.sendError('Warning', 'MissingSchema','Please select a Schema');
+            this.props.sendError('Warning', 'MissingSchema', 'Please select a Schema');
             this.setState({
                 showOptions: false
             });
@@ -31,15 +32,27 @@ export default class SlotOptions extends React.Component {
     }
 
     addNewQuery(e) {
-        this.props.addNewConnection({instanceName: this.props.instanceName, connectionType:'query',connection:this.props.connection});
+        this.props.addNewConnection({
+            instanceName: this.props.instanceName,
+            connectionType: 'query',
+            connection: this.props.connection
+        });
     }
 
     addNewMonitor(e) {
-        this.props.addNewConnection({instanceName: this.props.instanceName, connectionType:'monitor',connection:this.props.connection});
+        this.props.addNewConnection({
+            instanceName: this.props.instanceName,
+            connectionType: 'monitor',
+            connection: this.props.connection
+        });
     }
 
     addNewWatcher(e) {
-        this.props.addNewConnection({instanceName: this.props.instanceName, connectionType:'slowWatcher',connection:this.props.connection});
+        this.props.addNewConnection({
+            instanceName: this.props.instanceName,
+            connectionType: 'slowWatcher',
+            connection: this.props.connection
+        });
     }
 
     disconnect(e) {
@@ -100,3 +113,10 @@ export default class SlotOptions extends React.Component {
         )
     }
 }
+
+SlotOptions.propTypes = {
+    slotOptions: PropTypes.array.isRequired,
+    instanceName: PropTypes.string.isRequired,
+    onCloseInstance: PropTypes.func.isRequired,
+    sendError: PropTypes.func.isRequired
+};

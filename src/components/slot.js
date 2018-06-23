@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import SlotActive from './slotactive';
-import Dropdown from './dropdown';
 import SlotOptions from './slotoptions';
 import Schemas from './schemas';
 
@@ -11,7 +10,6 @@ const Slot = props =>
         <div className="form-check-inline input-group mb-2 mr-sm-2">
             <SlotActive
                 onActiveInstanceChange={props.onActiveInstanceChange}
-                active={props.active}
                 slot={props.slot}
                 showDetail={props.showDetail}
                 index={props.index}

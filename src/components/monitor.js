@@ -285,6 +285,16 @@ export default class MonitorSchema extends React.Component {
     }
 };
 
+MonitorSchema.propTypes = {
+    connectionID: PropTypes.number,
+    host: PropTypes.string,
+    db: PropTypes.string,
+    instanceName: PropTypes.string,
+    onCloseConnection: PropTypes.func.isRequired,
+    index: PropTypes.number,
+    onMonitorUpdate: PropTypes.func.isRequired,
+    data: PropTypes.array,
+};
 
 // this.state = {
 //     width: window.innerWidth - 120,

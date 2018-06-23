@@ -106,7 +106,6 @@ class Application extends React.Component {
 
     onAskDB(e) {
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
-        const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
         const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
         /*
         e.instanceName,
@@ -133,7 +132,6 @@ class Application extends React.Component {
 
     onMonitorUpdate(e) {
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
-        const clearError = bindActionCreators(InstanceActionCreators.clearError, this.props.dispatch);
         const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
         /*
         e.instanceName,
@@ -192,7 +190,6 @@ class Application extends React.Component {
     interceptAddConnection(e) {
         console.log(e);
         const {activeSchema, connection} = this.getConnection(e);
-        const updateConnection = bindActionCreators(InstanceActionCreators.updateConnection, this.props.dispatch);
         const addConnection = bindActionCreators(InstanceActionCreators.addConnection, this.props.dispatch);
         const addError = bindActionCreators(InstanceActionCreators.addError, this.props.dispatch);
         switch (e.connectionType) {
@@ -204,27 +201,7 @@ class Application extends React.Component {
                 });
                 return addConnection(e.instanceName, e.connectionType);
             case 'monitor':
-                let int = setInterval(() => {
-                    connection.useSchema(activeSchema).then((res) => connection.processList(activeSchema)).then((res) => {
-                        this.setState({
-                            dbConnects: this.state.dbConnects.map((connection, index) => {
-                                if (connection.instanceName === e.instanceName) {
-                                    return {
-                                        ...connection,
-                                        results: res,
-                                    }
-                                } else {
-                                    return {
-                                        ...connection
-                                    }
-                                }
-                            })
-                        })
-                    }).catch((err) => {
-                        addError('Error', err.code, `${err.message}`);
-                    })
-                }, 3000);
-                return addConnection(e.instanceName, e.connectionType, int);
+                return addConnection(e.instanceName, e.connectionType);
             case 'slowWatcher':
                 return addConnection(e.instanceName, e.connectionType);
         }

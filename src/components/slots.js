@@ -54,7 +54,7 @@ Slots.propTypes = {
             username: PropTypes.string,
             password: PropTypes.string,
             host: PropTypes.string,
-            port: PropTypes.number
+            port: PropTypes.string
         }
     ))
 };

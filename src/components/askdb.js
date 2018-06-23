@@ -122,6 +122,12 @@ export default class AskDB extends React.Component {
 
 
 AskDB.propTypes = {
+    connectionID: PropTypes.number,
+    host: PropTypes.string,
     db: PropTypes.string,
-    host: PropTypes.string
+    instanceName: PropTypes.string,
+    onCloseConnection: PropTypes.func.isRequired,
+    index: PropTypes.number,
+    onAskDB: PropTypes.func.isRequired,
+
 };
