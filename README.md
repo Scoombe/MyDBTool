@@ -18,5 +18,8 @@ npm run electron
 ```
 If you wish to run the development version enter:
 ```
+//run this first
+npm start
+// then in a seperate terminal
 npm run electron-dev
 ```
