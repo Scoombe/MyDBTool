@@ -19,72 +19,35 @@ export default class Table extends React.Component {
     }
 
     render() {
+        let columns = [];
+        let data = [];
+        let row = {};
+        for (let key in this.props.result[0]) {
+            columns.push({
+                Header: key,
+                accessor: key
+            });
+        }
+        for (let i = 0; i < this.props.result.length; i++) {
+            data.push(this.props.result[i]);
+        }
+        let length;
+        if (data.length >= 10) {
+            length = 10
+        } else {
+            length = this.props.result.length;
+        }
+        console.log(data);
+        console.log(columns);
         return (
             <div>
-                {/*<ReactTable*/}
-                    {/*data={props.data}*/}
-                    {/*columns={props.columns}*/}
-                      {/*columns={[{*/}
-                          {/*Header: 'Name',*/}
-                          {/*columns: [{*/}
-                              {/*Header: 'First Name',*/}
-                              {/*accessor: 'firstName'*/}
-                          {/*}, {*/}
-                              {/*Header: 'Last Name',*/}
-                              {/*id: 'lastName',*/}
-                              {/*accessor: d => d.lastName*/}
-                          {/*}]*/}
-                      {/*}, {*/}
-                          {/*Header: 'Info',*/}
-                          {/*columns: [{*/}
-                              {/*Header: 'Profile Progress',*/}
-                              {/*accessor: 'progress',*/}
-                              {/*Cell: row => (*/}
-                                  {/*<div*/}
-                                      {/*style={{*/}
-                                          {/*width: '100%',*/}
-                                          {/*height: '100%',*/}
-                                          {/*backgroundColor: '#dadada',*/}
-                                          {/*borderRadius: '2px'*/}
-                                      {/*}}*/}
-                                  {/*>*/}
-                                      {/*<div*/}
-                                          {/*style={{*/}
-                                              {/*width: `${row.value}%`,*/}
-                                              {/*height: '100%',*/}
-                                              {/*backgroundColor: row.value > 66 ? '#85cc00'*/}
-                                                  {/*: row.value > 33 ? '#ffbf00'*/}
-                                                      {/*: '#ff2e00',*/}
-                                              {/*borderRadius: '2px',*/}
-                                              {/*transition: 'all .2s ease-out'*/}
-                                          {/*}}*/}
-                                      {/*/>*/}
-                                  {/*</div>*/}
-                              {/*)*/}
-                          {/*}, {*/}
-                              {/*Header: 'Status',*/}
-                              {/*accessor: 'status',*/}
-                              {/*Cell: row => (*/}
-                                  {/*<span>*/}
-                      {/*<span style={{*/}
-                          {/*color: row.value === 'relationship' ? '#ff2e00'*/}
-                              {/*: row.value === 'complicated' ? '#ffbf00'*/}
-                                  {/*: '#57d500',*/}
-                          {/*transition: 'all .3s ease'*/}
-                      {/*}}>*/}
-                        {/*&#x25cf;*/}
-                      {/*</span> {*/}
-                                      {/*row.value === 'relationship' ? 'In a relationship'*/}
-                                          {/*: row.value === 'complicated' ? `It's complicated`*/}
-                                          {/*: 'Single'*/}
-                                  {/*}*/}
-                    {/*</span>*/}
-                              {/*)*/}
-                          {/*}]*/}
-                      {/*}]}*/}
-                      {/*defaultPageSize={10}*/}
-                    {/*className="-striped -highlight"*/}
-                {/*/>*/}
+                <ReactTable
+                    data={data}
+                    columns={columns}
+                    pageSizeOptions={[length, 5, 10, 20, 25, 50, 100]}
+                    defaultPageSize={length}
+
+                />
             </div>
         )
     }

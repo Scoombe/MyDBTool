@@ -116,7 +116,7 @@ class Application extends React.Component {
         return new Promise((resolve, reject) => {
             const {connection} = this.getConnection(e);
             connection.useSchema(e.schema).then((res) => connection.explain(e.query)).then((res) => {
-                updateConnection(e.instanceName, e.connectionID, 'Explain', res[0]);
+                updateConnection(e.instanceName, e.connectionID, 'Explain', res);
                 resolve(res);
 
             }).then(() => connection.query(e.query)).then((res) => {
