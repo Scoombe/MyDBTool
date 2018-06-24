@@ -5,7 +5,7 @@
   "main": "src/electron-starter.js",
   "homepage": "./",
   "dependencies": {
-    "chart.js": "^1.1.1",
+    "chart.js": "^2.7.2",
     "mysql": "^2.15.0",
     "process-list": "^1.2.3",
     "prop-types": "^15.6.1",

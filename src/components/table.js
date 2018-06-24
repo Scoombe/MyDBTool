@@ -21,7 +21,6 @@ export default class Table extends React.Component {
     render() {
         let columns = [];
         let data = [];
-        let row = {};
         for (let key in this.props.result[0]) {
             columns.push({
                 Header: key,

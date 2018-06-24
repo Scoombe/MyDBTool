@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Close from './close';
+import LineChart from './linechart';
 
 const SlowDB = (props) => {
     return (
@@ -24,7 +25,10 @@ const SlowDB = (props) => {
                 </div>
             </div>
             <div className="statcard statcard-outline-info">
-                <h6>Click here to start recording slow queries</h6>
+                <div className={'action-outline'}>
+                    <LineChart/>
+                </div>
+
             </div>
         </div>
     )

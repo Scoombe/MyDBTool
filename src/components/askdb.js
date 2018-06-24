@@ -104,10 +104,12 @@ export default class AskDB extends React.Component {
                                         transitionLeaveTimeout={500}
                                         key={index}
                                     >
-                                        <Table
-                                            result={tableData.results}
+                                        <div className={'action-outline'}>
+                                            <Table
+                                                result={tableData.results}
 
-                                        />
+                                            />
+                                        </div>
                                     </ReactCSSTransitionGroup>
                                 )
                             })
@@ -119,7 +121,8 @@ export default class AskDB extends React.Component {
                         className="panel-collapse">
                         <div>
                             <div
-                                style={{minHeight: 50}} contentEditable="true" onInput={this.onEnterQuery}/>
+                                style={{minHeight: 80}} className="action-outline" contentEditable="true"
+                                onInput={this.onEnterQuery}/>
                         </div>
                         <div className="btn-group">
                             {
