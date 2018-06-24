@@ -11,7 +11,6 @@
     "prop-types": "^15.6.1",
     "react": "^16.4.0",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-chartjs": "^1.2.0",
     "react-chartjs2": "^1.2.1",
     "react-dom": "^16.4.0",
     "react-redux": "^5.0.7",
@@ -22,7 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "make": "npm run build && npm run rebuild",
+    "make": "npm run rebuild && npm run build",
     "build": "react-scripts build",
     "rebuild": "electron-rebuild",
     "test": "react-scripts test --env=jsdom",

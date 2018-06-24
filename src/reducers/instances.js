@@ -11,7 +11,7 @@ const initialState = {
             instanceName: '',
             isConnected: false,
             detail: true,
-            schemas: ['rostrvm4323_106', 'rostrvm4330_106', 'rostrvm_106', 'information_schema', 'mysql'],
+            schemas: [],
             slotOptions: [],
             activeSchema: '',
             username: '',

@@ -131,7 +131,6 @@ export default class DbModal extends React.Component {
                             value="Connect"
                         />
                         <button
-                            id="db-connect-cancel"
                             type="button"
                             className="btn btn-outline-secondary "
                             style={{marginLeft: '20px'}}

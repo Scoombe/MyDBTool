@@ -1,7 +1,7 @@
 /*! CSS Used from: http://localhost:63342/reactBasics/app.css */
 body {
     background: #d5d5d5;
-    font-family: arial;
+    font-family: arial, serif;
     color: #FAFAFA;
     text-transform: uppercase;
 }
@@ -281,8 +281,7 @@ small {
     font-size: .9rem;
     line-height: 1.25;
     color: #fff;
-    background-color: #434857;
-    background-image: none;
+    background: #434857 none;
     background-clip: padding-box;
     border: 1px solid rgba(0, 0, 0, .15);
     border-radius: .25rem;
@@ -409,8 +408,7 @@ small {
 
 .btn-primary:active {
     color: #fff;
-    background-color: #137499;
-    background-image: none;
+    background: #137499 none;
     border-color: #126e90;
 }
 
@@ -437,15 +435,13 @@ small {
 
 .btn-danger:active {
     color: #fff;
-    background-color: #dc1e33;
-    background-image: none;
+    background: #dc1e33 none;
     border-color: #d31d31;
 }
 
 .btn-outline-primary {
     color: #1997c6;
-    background-image: none;
-    background-color: transparent;
+    background: transparent none;
     border-color: #1997c6;
 }
 
@@ -472,8 +468,7 @@ small {
 
 .btn-outline-secondary {
     color: #dcdcdc;
-    background-image: none;
-    background-color: transparent;
+    background: transparent none;
     border-color: #dcdcdc;
 }
 
@@ -500,8 +495,7 @@ small {
 
 .btn-outline-success {
     color: #1bc98e;
-    background-image: none;
-    background-color: transparent;
+    background: transparent none;
     border-color: #1bc98e;
 }
 
@@ -528,8 +522,7 @@ small {
 
 .btn-success {
     color: #fff;
-    background-image: none;
-    background-color: #1bc98e;
+    background: #1bc98e none;
     border-color: #1bc98e;
 }
 
@@ -636,7 +629,6 @@ small {
 
 .btn-group {
     position: relative;
-    display: -webkit-inline-box;
     display: -ms-inline-flexbox;
     display: inline-flex;
     vertical-align: middle;
@@ -770,7 +762,6 @@ small {
     width: 0;
     height: 0;
     margin-left: 2px;
-    margin-left: 2px;
     vertical-align: middle;
     border-right: 4px solid transparent;
     border-left: 4px solid transparent;
@@ -808,8 +799,7 @@ small {
 }
 
 .statcard-outline-warning {
-    border-color: #e4d836;
-    border-style: solid;
+    border: solid #e4d836;
     background-color: transparent;
     border-radius: 4px;
     margin-top: 10px;
@@ -836,8 +826,7 @@ small {
 .query-input {
     border-radius: 4px;
     padding: 10px;
-    border-style: solid;
-    border-color: #595959;
+    border: solid #595959;
 }
 
 .connect-head {
@@ -855,16 +844,14 @@ small {
 }
 
 .statcard-outline-success {
-    border-color: #1bc98e;
-    border-style: solid;
+    border: solid #1bc98e;
     background-color: transparent;
     border-radius: 4px;
     margin-top: 10px;
 }
 
 .statcard-outline-primary {
-    border-color: #1997c6;
-    border-style: solid;
+    border: solid #1997c6;
     background-color: transparent;
     border-radius: 4px;
     margin-top: 10px;
@@ -875,8 +862,7 @@ small {
 }
 
 .statcard-outline-danger {
-    border-color: #e64759;
-    border-style: solid;
+    border: solid #e64759;
     background-color: transparent;
     border-radius: 4px;
 }
@@ -987,7 +973,7 @@ small {
     position: relative;
     top: 2px;
     display: inline-block;
-    font-family: "toolkit-entypo";
+    font-family: "toolkit-entypo", serif;
     speak: none;
     font-size: 100%;
     font-style: normal;

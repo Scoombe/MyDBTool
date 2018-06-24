@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Line} from 'react-chartjs'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Close from './close';
 import Table from './table';
@@ -18,70 +17,14 @@ export default class MonitorSchema extends React.Component {
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
         this.updateCPU = this.updateCPU.bind(this);
         this.onClose = this.onClose.bind(this);
+        this.minAction = this.minAction.bind(this);
         this.state = {
             snapshot: '',
             width: window.innerWidth - 120,
             running: true,
             timer: 0,
             lastTime: 0,
-            runningQs: {
-                cols: [],
-                rows: []
-            },
-            data: {
-                labels: [],
-
-                datasets: []
-            },
-            options: {
-
-                ///Boolean - Whether grid lines are shown across the chart
-                scaleShowGridLines: true,
-
-                //String - Colour of the grid lines
-                scaleGridLineColor: "rgba(0,0,0,.05)",
-
-                //Number - Width of the grid lines
-                scaleGridLineWidth: 1,
-
-                //Boolean - Whether to show horizontal lines (except X axis)
-                scaleShowHorizontalLines: true,
-
-                //Boolean - Whether to show vertical lines (except Y axis)
-                scaleShowVerticalLines: true,
-
-                //Boolean - Whether the line is curved between points
-                bezierCurve: true,
-
-                //Number - Tension of the bezier curve between points
-                bezierCurveTension: 0.4,
-
-                //Boolean - Whether to show a dot for each point
-                pointDot: true,
-
-                //Number - Radius of each point dot in pixels
-                pointDotRadius: 4,
-
-                //Number - Pixel width of point dot stroke
-                pointDotStrokeWidth: 1,
-
-                //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-                pointHitDetectionRadius: 20,
-
-                //Boolean - Whether to show a stroke for datasets
-                datasetStroke: true,
-
-                //Number - Pixel width of dataset stroke
-                datasetStrokeWidth: 2,
-
-                //Boolean - Whether to fill the dataset with a colour
-                datasetFill: true,
-
-
-                //Boolean - Whether to horizontally center the label and point dot inside the grid
-                offsetGridLines: false
-            }
-
+            showStuff: true,
         }
     }
 
@@ -92,6 +35,12 @@ export default class MonitorSchema extends React.Component {
 
     componentWillMount() {
         this.updateDimensions();
+    }
+
+    minAction() {
+        this.setState({
+            showStuff: !this.state.showStuff
+        })
     }
 
     componentDidMount() {
@@ -233,10 +182,10 @@ export default class MonitorSchema extends React.Component {
         return (
             <div style={{margin: 5}}
                  className="tabs query">
-                <div className="panel panel-default query-tab">
+                <div className="panel panel-default query-tab" onClick={this.minAction}>
                     <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
                            index={this.props.index}/>
-                    <div className="panel-heading statcard statcard-outline-warning p-4 mb-2">
+                    <div className="panel-heading statcard statcard-outline-warning p-4 mb-2" >
                         <a style={{color: 'white'}}>
                             <h6 className="statcard-number panel-title">
                                 {this.props.db}
@@ -249,41 +198,47 @@ export default class MonitorSchema extends React.Component {
                         </a>
                     </div>
                 </div>
-                <ReactCSSTransitionGroup
-                    component="div"
-                    transitionName="squish"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={500}
-                >
-                    {
-                        (this.props.data)
-                            ? (<div className={'action-outline'}>
-                                <LineChart
-                                    data={this.props.data[0].results}
-                                    options={this.state.options}
-                                /></div>)
-                            : null
-                    }
 
-                </ReactCSSTransitionGroup>
-                <ReactCSSTransitionGroup
-                    component="div"
-                    transitionName="squish"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={500}
-                >{
-                    (this.props.data && this.props.data.length >= 2)
+
+                {
+                    (this.state.showStuff && this.props.data)
                         ? (<div className={'action-outline'}>
-                                <Table
-                                    result={this.props.data[1].results}
-                                />
+                                <ReactCSSTransitionGroup
+                                    component="div"
+                                    transitionName="squish"
+                                    transitionEnterTimeout={500}
+                                    transitionLeaveTimeout={500}
+                                >
+                                    <LineChart
+                                        data={this.props.data[0].results}
+                                        options={this.state.options}
+                                    />
+                                </ReactCSSTransitionGroup>
                             </div>
                         )
                         : null
                 }
 
 
-                </ReactCSSTransitionGroup>
+                {
+                    (this.state.showStuff && this.props.data && this.props.data.length >= 2)
+                        ? (<div className={'action-outline'}>
+                                <ReactCSSTransitionGroup
+                                    component="div"
+                                    transitionName="squish"
+                                    transitionEnterTimeout={500}
+                                    transitionLeaveTimeout={500}
+                                >
+                                    <Table
+                                        result={this.props.data[1].results}
+                                    />
+                                </ReactCSSTransitionGroup>
+                            </div>
+                        )
+                        : null
+                }
+
+
             </div>
         )
     }

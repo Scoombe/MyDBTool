@@ -26,7 +26,7 @@ const SlowDB = (props) => {
             </div>
             <div className="statcard statcard-outline-info">
                 <div className={'action-outline'}>
-                    <LineChart/>
+
                 </div>
 
             </div>
