@@ -275,10 +275,17 @@ export default class MonitorSchema extends React.Component {
                     transitionName="squish"
                     transitionEnterTimeout={500}
                     transitionLeaveTimeout={500}
-                >
-                    <Table
-                        result={this.props.result}
-                    />
+                >{
+                    (this.props.data && this.props.data.length >= 2)
+                        ? (
+                            <Table
+                                result={this.props.data[1].results}
+                            />
+                        )
+                        : null
+                }
+
+
                 </ReactCSSTransitionGroup>
             </div>
         )

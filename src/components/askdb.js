@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Qtimer from './qtimer'
 import Close from './close';
+import Table from './table';
 
 export default class AskDB extends React.Component {
     constructor(props) {
@@ -91,6 +93,28 @@ export default class AskDB extends React.Component {
 
                         </a>
                     </div>
+                    {
+                        (this.props.data && this.props.data.length >= 1)
+                            ? this.props.data.map((tableData, index) => {
+                                return (
+                                    <ReactCSSTransitionGroup
+                                        component="div"
+                                        transitionName="squish"
+                                        transitionEnterTimeout={500}
+                                        transitionLeaveTimeout={500}
+                                        key={index}
+                                    >
+                                        <Table
+                                            result={tableData.results}
+
+                                        />
+                                    </ReactCSSTransitionGroup>
+                                )
+                            })
+                            : null
+                    }
+
+
                     <div
                         className="panel-collapse">
                         <div>
