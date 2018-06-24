@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Qtimer from './qtimer'
 import Close from './close';
 import Table from './table';
 
@@ -81,7 +80,7 @@ export default class AskDB extends React.Component {
                     <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
                            index={this.props.index}/>
                     <div className="panel-heading statcard statcard-outline-primary p-4 mb-2">
-                        <Qtimer timer={this.state.timer}/>
+
                         <a style={{color: 'white'}}>
                             <h6 className="statcard-number panel-title">
                                 {this.props.db}

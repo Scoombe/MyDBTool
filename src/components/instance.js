@@ -8,13 +8,13 @@ import SlowDB from './slowdb';
 export default class Instance extends React.Component {
     constructor(props) {
         super(props);
-        this.minConnections = this.minConnections.bind(this);
+        this.minInstance = this.minInstance.bind(this);
         this.state = {
             showConnections: true,
         };
     }
 
-    minConnections() {
+    minInstance() {
         this.setState({
             showConnections: !this.state.showConnections
         })
@@ -25,10 +25,10 @@ export default class Instance extends React.Component {
         return (
             <div className="connection">
                 <Close instanceName={this.props.instanceName} onClose={this.props.onCloseInstance}/>
-                <div className="statcard statcard-outline-secondary">
+                <div className="statcard statcard-outline-secondary" >
                     <div
                         className="panel-heading statcard p-4 mb-2 connect-head statcard-outline-success statcard-success"
-                        onClick={this.minConnections}>
+                        onClick={this.minInstance}>
                         <a style={{color: 'white'}}>
                             <h5 className="statcard-number panel-title">
                                 {this.props.instanceName}

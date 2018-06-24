@@ -204,6 +204,8 @@ class Application extends React.Component {
                 return addConnection(e.instanceName, e.connectionType);
             case 'slowWatcher':
                 return addConnection(e.instanceName, e.connectionType);
+            default:
+                return null;
         }
     }
 

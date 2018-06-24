@@ -5,7 +5,7 @@ class BlankSlot extends React.Component {
     render() {
         return (
             <div className="form-check-inline input-group mb-2 mr-sm-2">
-                <button id="slot2" className="btn btn-outline-secondary empty-slot"
+                <button className="btn btn-outline-secondary empty-slot"
                         style={{float: 'top'}}>{this.props.slot}
                 </button>
             </div>)

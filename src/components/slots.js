@@ -9,7 +9,7 @@ const Slots = props =>
     (
         <div className="form-group row">
             <div className="col-md-10">
-                <div id="slots" className="btn-group btn-group-toggle" data-toggle="buttons"
+                <div className="btn-group btn-group-toggle"
                      style={{paddingTop: '25px'}}>
                     {props.instances.map((eachInstance, index) => {
                         return <Slot slot={eachInstance.name}
@@ -59,8 +59,5 @@ Slots.propTypes = {
     ))
 };
 
-Slots.defaultProps = {
-    schemaSelect: "schemaSelect-1",
-};
 
 export default Slots;
