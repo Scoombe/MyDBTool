@@ -4,6 +4,7 @@ import {Line} from 'react-chartjs'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Close from './close';
 import Table from './table';
+import LineChart from './linechart';
 
 const electron = window.require('electron');
 const ipcRenderer = electron.ipcRenderer;
@@ -157,13 +158,10 @@ export default class MonitorSchema extends React.Component {
                     for (let i = 0; i < processes.length; i++) {
                         datasets.push({
                             label: processes[i].pid || 'CPU',
-                            fillColor: "rgba(220,220,220,0.2)",
-                            strokeColor: "rgba(220,220,220,1)",
-                            pointColor: "rgba(220,220,220,1)",
-                            pointStrokeColor: "#fff",
-                            pointHighlightFill: "#fff",
-                            pointHighlightStroke: "rgba(220,220,220,1)",
-                            data: [processes[i].cpu]
+                            backgroundColor: 'black',
+                            borderColor: '#e4d836',
+                            data: [processes[i].cpu],
+                            fill: false
 
                         })
                     }
@@ -259,13 +257,11 @@ export default class MonitorSchema extends React.Component {
                 >
                     {
                         (this.props.data)
-                            ? (<Line
-                                data={this.props.data[0].results}
-                                options={this.state.options}
-                                width={this.state.width}
-                                style={{width: this.state.width + 'px'}}
-                                redraw
-                            />)
+                            ? (<div className={'action-outline'}>
+                                <LineChart
+                                    data={this.props.data[0].results}
+                                    options={this.state.options}
+                                /></div>)
                             : null
                     }
 
@@ -277,10 +273,11 @@ export default class MonitorSchema extends React.Component {
                     transitionLeaveTimeout={500}
                 >{
                     (this.props.data && this.props.data.length >= 2)
-                        ? (
-                            <Table
-                                result={this.props.data[1].results}
-                            />
+                        ? (<div className={'action-outline'}>
+                                <Table
+                                    result={this.props.data[1].results}
+                                />
+                            </div>
                         )
                         : null
                 }
