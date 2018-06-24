@@ -75,7 +75,7 @@ export default class AskDB extends React.Component {
 
     render() {
         return (
-            <div id="instance-1" style={{margin: 5}}
+            <div style={{margin: 5}}
                  className="tabs query panel-collapse">
                 <div className="panel panel-default query-tab">
                     <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
@@ -117,8 +117,7 @@ export default class AskDB extends React.Component {
                     }
 
 
-                    <div
-                        className="panel-collapse">
+                    <div>
                         <div>
                             <div
                                 style={{minHeight: 80}} className="action-outline" contentEditable="true"
@@ -128,12 +127,12 @@ export default class AskDB extends React.Component {
                             {
                                 this.state.running ?
                                     <button className="btn btn-outline-danger qbtn "
-                                            data-schema="rostrvm4322_106" data-connection={1}
+
                                             onClick={this.onKill}> Kill
                                     </button>
                                     :
                                     <button className="btn btn-outline-success qbtn qbtn-run"
-                                            data-schema="rostrvm4322_106" data-connection={1} onClick={this.onAsk}> Run
+                                            onClick={this.onAsk}> Run
                                     </button>
                             }
 
