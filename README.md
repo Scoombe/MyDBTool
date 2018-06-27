@@ -23,3 +23,13 @@ npm start
 // then in a seperate terminal
 npm run electron-dev
 ```
+
+## Screenshots
+#### Monitoring
+> Monitoring the MySQL process and MySQL processlist for a specific instance
+
+![alt tag](screenshots/Monitor.png)
+#### Query
+> Querying the selected schema and showing the explain results
+
+![alt tag](screenshots/Querying.png)
