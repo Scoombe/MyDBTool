@@ -84,13 +84,30 @@ electron.ipcMain.on('close-req', (event, arg) => {
     }
 });
 
-electron.ipcMain.on('snapshot', (event, arg) => {
+electron.ipcMain.on('start-snapshot', (event, arg) => {
+// Receive start snapshot from a monitor with the monitors connectionID
+    let snapshotID = setInterval(() => {
+        // Start the interval checking the local running processes
+        snapshot('pid', 'name', 'cpu', 'pmem').then(tasks => {
+            // filter the processes to return only MySQL data
+            const mysqls = tasks.filter((task) => {
+                return task.name.indexOf('mysql') >= 0;
 
-    snapshot('pid', 'name','cpu','pmem').then(tasks => {
-        const mysqls = tasks.filter((task) => {
-            return task.name.indexOf('mysql') >= 0;
+            });
+            // returnOB has the snapshotID for clearing the interval, the connectionID for monitor and the process data
+            const returnOb = {
+                interval: snapshotID,
+                connectionID: arg,
+                mysqls: mysqls
+            };
+            event.sender.send('process-list', returnOb);
+        })
 
-        });
-        event.sender.send('process-list',mysqls );
-    })
+    }, 2000);
+    electron.ipcMain.on('stop-snapshot', (event, arg) => {
+        //Turns out you cant pass exotic objects through ipdRenderer so have to
+        clearInterval(snapshotID);
+    });
+
 });
+
