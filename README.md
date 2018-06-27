@@ -28,8 +28,8 @@ npm run electron-dev
 #### Monitoring
 > Monitoring the MySQL process and MySQL processlist for a specific instance
 
-![alt tag](screenshots/Monitor.png)
+![alt tag](screenshots/Monitor.PNG)
 #### Query
 > Querying the selected schema and showing the explain results
 
-![alt tag](screenshots/Querying.png)
+![alt tag](./screenshots/Querying.PNG)
