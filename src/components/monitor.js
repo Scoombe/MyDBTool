@@ -38,6 +38,12 @@ export default class MonitorSchema extends React.Component {
     }
 
     minAction() {
+        if (this.state.showStuff) {
+            ipcRenderer.send('stop-snapshot', {snapshot: this.state.snapshot});
+        } else {
+            ipcRenderer.send('start-snapshot', this.props.connectionID);
+        }
+
         this.setState({
             showStuff: !this.state.showStuff
         })
@@ -45,14 +51,12 @@ export default class MonitorSchema extends React.Component {
 
     componentDidMount() {
         window.addEventListener("resize", this.updateDimensions);
-        let snapshot = setInterval(() => {
-            ipcRenderer.send('snapshot', 'main');
-        }, 2000);
-
+// On load send through the start Snapshot to electron
+        ipcRenderer.send('start-snapshot', this.props.connectionID);
+// On receiving process-list data update the store
         ipcRenderer.on('process-list', (event, arg) => {
-            if (Array.isArray(arg)) {
-                this.updateCPU(snapshot, arg);
-
+            if (Array.isArray(arg.mysqls) && arg.connectionID === this.props.connectionID) {
+                this.updateCPU(arg.interval, arg.mysqls);
             }
 
         });
@@ -109,7 +113,7 @@ export default class MonitorSchema extends React.Component {
                             label: processes[i].pid || 'CPU',
                             backgroundColor: 'black',
                             borderColor: '#e4d836',
-                            data: [processes[i].cpu],
+                            data: [processes[i].cpu.toFixed(5)],
                             fill: false
 
                         })
@@ -122,7 +126,7 @@ export default class MonitorSchema extends React.Component {
                         for (let c = 0; c < processes.length; c++) {
                             if (datasets[i].label === processes[c].pid) {
                                 let data = datasets[i].data;
-                                data.push(processes[i].cpu);
+                                data.push(processes[i].cpu.toFixed(5));
                                 datasets[i].data = data;
                             }
                         }
@@ -134,7 +138,7 @@ export default class MonitorSchema extends React.Component {
                         for (let c = 0; c < processes.length; c++) {
                             if (datasets[i].label === processes[c].pid) {
                                 let data = datasets[i].data;
-                                data.push(processes[i].cpu);
+                                data.push(processes[i].cpu.toFixed(5));
                                 datasets[i].data = data;
                             }
                         }
@@ -168,13 +172,14 @@ export default class MonitorSchema extends React.Component {
     }
 
     onClose(e) {
-        clearInterval(this.props.data[0].id);
+        ipcRenderer.send('stop-snapshot', {snapshot: this.props.data[0].id});
         clearInterval(this.props.data[1].id);
         this.props.onCloseConnection(e.instanceName, e.index);
     }
 
 
     componentWillUnmount() {
+        ipcRenderer.send('stop-snapshot', {snapshot: this.props.data[0].id});
         window.removeEventListener("resize", this.updateDimensions);
     }
 
@@ -185,7 +190,7 @@ export default class MonitorSchema extends React.Component {
                 <div className="panel panel-default query-tab" onClick={this.minAction}>
                     <Close onClose={this.onClose} action={true} instanceName={this.props.instanceName}
                            index={this.props.index}/>
-                    <div className="panel-heading statcard statcard-outline-warning p-4 mb-2" >
+                    <div className="panel-heading statcard statcard-outline-warning p-4 mb-2">
                         <a style={{color: 'white'}}>
                             <h6 className="statcard-number panel-title">
                                 {this.props.db}
